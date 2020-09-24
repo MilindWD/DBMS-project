@@ -46,7 +46,7 @@ router.get('/user/me', auth, async (req, res) => {
     res.send(await req.user.getPublicInfo());
 });
 
-router.post('/logout', auth, (req, res) => {
+router.post('/logout', auth, async (req, res) => {
     req.user.tokens = [];
     await user.save();
     res.send({
