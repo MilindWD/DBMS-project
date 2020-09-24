@@ -48,7 +48,7 @@ router.get('/user/me', auth, async (req, res) => {
 
 router.post('/logout', auth, (req, res) => {
     req.user.tokens = [];
-    awai
+    await user.save();
     res.send({
         success : "logged out"
     });
