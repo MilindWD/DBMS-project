@@ -57,6 +57,13 @@ userSchema.statics.findByCredentials = async (email, password) => {
     throw new Error('Login failed');
 }
 
+userSchema.methods.getPublicInfo = async function () {
+    return {
+        name: this.name,
+        email: this.email
+    }
+}
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
