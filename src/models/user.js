@@ -4,6 +4,18 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
+    organization: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    phone: {
+        type: String,
+        required: true,
+        trim: true,
+        minlength: 10,
+        maxlength: 10
+    },
     name: {
         type: String,
         required: true,
@@ -16,6 +28,24 @@ const userSchema = new mongoose.Schema({
         validate(value) {
             if(validator.isEmail(value)) return true;
             throw new Error('Invalid email');
+        }
+    },
+    address: {
+        line1: {
+            type: String,
+            required: true
+        },
+        city: {
+            type: String,
+            required: true
+        },
+        state: {
+            type: String,
+            required: true
+        },
+        zipcode: {
+            type: String,
+            required: true
         }
     },
     password: {
@@ -42,7 +72,7 @@ userSchema.pre('save', async function(next) {
 
 userSchema.methods.generateToken = async function () {
     const user = this;
-    const token = jwt.sign({_id: user._id.toString() }, '@#^$%!@*!#*#!');
+    const token = jwt.sign({_id: user._id.toString() }, process.env.JWT_SECRET);
     user.tokens = user.tokens.concat({token});
     await user.save();
     return token;
@@ -60,7 +90,9 @@ userSchema.statics.findByCredentials = async (email, password) => {
 userSchema.methods.getPublicInfo = async function () {
     return {
         name: this.name,
-        email: this.email
+        email: this.email,
+        organization: this.organization,
+        phone: this.phone
     }
 }
 
