@@ -29,6 +29,9 @@ const donatorSchema = new mongoose.Schema({
             type: String,
             required: true
         }
+    },
+    completedBy: {
+        type: String
     }
 });
 

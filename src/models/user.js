@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Donor = require('../models/donor');
 
 const userSchema = new mongoose.Schema({
     organization: {
@@ -59,6 +60,12 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true
         } 
+    }],
+    jobs : [{
+        job_id : {
+            type: String,
+            required: true
+        }
     }]
 });
 
